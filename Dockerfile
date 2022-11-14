@@ -1,4 +1,4 @@
-FROM archlinux/base
+FROM archlinux:latest
 
 # Let's get the basic stuff out of the way
 RUN pacman -Syu base-devel --noconfirm
@@ -37,8 +37,7 @@ RUN ./waf configure
 RUN ./waf copter
 RUN ./waf plane
 
-FROM archlinux/base
-
+FROM archlinux:latest
 
 # Python, required to compile
 RUN pacman -Syu git python python-pip python-setuptools --noconfirm

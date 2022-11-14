@@ -1,4 +1,4 @@
-from sitl import SitlDockerHelper
+from sitl_mac import SitlDockerHelper
 from subprocess import check_output
 from time import sleep
 
