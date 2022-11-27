@@ -22,7 +22,7 @@ class SitlDockerHelper:
         os.system('DISPLAY=:0 xhost + localhost')
 
         # Default arguments, always used
-        docker_args = [
+        docker_args = [ # docker run -it --net=host --env DISPLAY=host.docker.internal:0 --volume $HOME/.Xauthority:/home/akl/.Xauthority:rw ardupilotmac
             'docker',
             'run',
             '-it', # python3 ./sim_vehicle.py -N -v ArduCopter --map --console
@@ -38,7 +38,8 @@ class SitlDockerHelper:
 
         # Default arguments for the container, always used
         docker_args.extend([
-            'wnt3rmute/ardupilot-sitl',
+            # 'wnt3rmute/ardupilot-sitl',
+            'ardupilotmac',
             './sim_vehicle.py',
             '-N',
         ])
