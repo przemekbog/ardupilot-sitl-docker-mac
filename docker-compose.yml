@@ -1,13 +1,27 @@
 version: '3'
 services:
+
+#  sitl:
+#
+#    platform: linux/x86_64
+#    build: .
+#    network_mode: "host"
+#    stdin_open: true
+#    tty: true
+#    volumes:
+#      - "$HOME/.Xauthority:/home/akl/.Xauthority:rw" # --env="DISPLAY" wtf
+#    environment:
+#      - DISPLAY
+#    #command: ./sim_vehicle.py -L Ballarat --map -v ArduCopter -N
+
+ # docker run -it --net=host --env DISPLAY=host.docker.internal:0 --volume $HOME/.Xauthority:/home/akl/.Xauthority:rw ardupilotmac
   sitl:
-    build: .
-    network_mode: "host"
+    build:
+     dockerfile: Mac.Dockerfile
+    network_mode: host
     stdin_open: true
-    tty: true
     volumes:
-      - "$HOME/.Xauthority:/home/akl/.Xauthority:rw" # --env="DISPLAY" wtf
+      - "$HOME/.Xauthority:/home/akl/.Xauthority:rw"
     environment:
-      - DISPLAY
-    #command: ./sim_vehicle.py -L Ballarat --map -v ArduCopter -N
-    
+      DISPLAY: host.docker.internal:0
+    command: python3 ./sim_vehicle.py -v ArduCopter --map --console

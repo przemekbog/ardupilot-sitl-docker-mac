@@ -25,7 +25,9 @@ class SitlDockerHelper:
         docker_args = [
             'docker',
             'run',
-            '-it',
+            '-it', # python3 ./sim_vehicle.py -N -v ArduCopter --map --console
+            # '-p', '127.0.0.1:14550:14551/udp',
+            '-p', '14550:14550/udp',
             '--net=host',
             '--env', f'DISPLAY={DOCKER_HOST_NAME}:0',
             '--volume', f'{os.environ["HOME"]}/.Xauthority:/home/akl/.Xauthority:rw',
