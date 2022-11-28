@@ -24,4 +24,4 @@ services:
       - "$HOME/.Xauthority:/home/akl/.Xauthority:rw"
     environment:
       DISPLAY: host.docker.internal:0
-    command: python3 ./sim_vehicle.py -v ArduCopter --map --console
+    command: python3 ./sim_vehicle.py -N -v ArduCopter --map --console
