@@ -1,27 +1,21 @@
-from sitl_mac import SitlDockerHelper
-from subprocess import check_output
-from time import sleep
+from pymavlink import mavutil
+import time
 
+master = mavutil.mavlink_connection('udp:0.0.0.0:14551', autoreconnect=True, retries=10)
+print("Connection created")
 
-def test_container_lifecycle():
-	# Check how many docker containers are running
-	num_of_containers = int(check_output('docker ps | wc -l', shell=True))
+master.wait_heartbeat()
+print("Heartbeat received")
 
-	print('setting up the runnner')
-	runner = SitlDockerHelper('ArduPlane', run_in_background=True)
+master.wait_gps_fix()
+print('Gps fix received')
 
-	print('running the container')
-	runner.run()
-	sleep(10)
+while True:
+    msg = master.recv_match(blocking=True)
 
-	new_num_of_containers = int(check_output('docker ps | wc -l', shell=True))
+    if msg.get_type() == "GLOBAL_POSITION_INT":
+        lat = msg.lat / 1e7
+        lon = msg.lon / 1e7
+        alt = msg.relative_alt / 1e3
 
-	# Check if the number of running containers has increased
-	assert num_of_containers + 1 == new_num_of_containers
-
-	print('stopping')
-	runner.stop()
-
-	# Check if the num of running containers is back to the start state
-	assert int(check_output('docker ps | wc -l', shell=True)) == num_of_containers
-
+        print(f'GPS position: lat {lat}, lon {lon}, alt {alt}')

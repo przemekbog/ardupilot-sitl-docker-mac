@@ -1,0 +1,19 @@
+services:
+  app:
+    # FIXME: Image should be added to a container registry. 
+    #        When I tried putting `build: dockerfile: Mac.Dockerfile` docker destkop showed a permission denied 
+    #        message in the terminal and the container didn't run (I suspect docker executes this without sudo 
+    #        and that's why this message shows up)
+    image: ardupilot123
+    network_mode: host
+    stdin_open: true
+    environment:
+      DISPLAY: host.docker.internal:0
+    entrypoint:
+      - sleep
+      - infinity
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+

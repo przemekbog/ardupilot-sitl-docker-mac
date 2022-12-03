@@ -19,9 +19,7 @@ services:
     build:
      dockerfile: Mac.Dockerfile
     network_mode: host
-    stdin_open: true
-    volumes:
-      - "$HOME/.Xauthority:/home/akl/.Xauthority:rw"
     environment:
       DISPLAY: host.docker.internal:0
     command: python3 ./sim_vehicle.py -N -v ArduCopter --map --console
+
